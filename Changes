@@ -1,0 +1,10 @@
+0.03
+	- Missing deps
+
+0.02
+	- Expose mro_isa_changed_in for more minimalistic cache invalidation
+	- Accept fully qualified names in addition to globrefs for code wishing to
+	  avoid incrementing the GvREFCNT of a symbol (*{"$class\::$name"} incs)
+
+0.01
+	- Initial version
