@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 64;
+use Test::More tests => 65;
 use Test::Exception;
 
 use ok 'Class::MethodCache' => qw(:all);
@@ -40,6 +40,7 @@ is( get_cached_method(*Bar::foo), \&Foo::foo, "cached method Bar::foo" );
 is( get_cached_method(*Bar::bar), undef, "no cached method Bar::bar" );
 is( get_cached_method(*Bar::gorch), undef, "no cached method Bar::gorch" );
 is( get_cv(*Bar::bar), \&Bar::bar, "cv Bar::bar" );
+is( get_cv("Bar::bar"), \&Bar::bar, "cv Bar::bar (fq)" );
 is( get_cv(*Bar::foo), \&Foo::foo, "cv Bar::foo" );
 is( get_cv(*Bar::gorch), undef, "no cv Bar::gorch" );
 

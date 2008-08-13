@@ -18,9 +18,39 @@ STATIC GV *sv_gv(SV *sv) {
 		if ( SvROK(sv) )
 			sv = SvRV(sv);
 
-		switch ( SvTYPE(sv) ) {
-			case SVt_PVGV:
-				return (GV *)sv;
+		if ( SvTYPE(sv) == SVt_PVGV ) {
+			return (GV *)sv;
+		} else if ( SvPOK(sv) ) {
+			/* fully qualified name case */
+			GV** gvp;
+			char *s, *end = NULL, saved;
+			char *name = SvPV_nolen(sv);
+			HV *stash = CopSTASH(PL_curcop);
+
+			for (s = name; *s++; ) {
+				if (*s == ':' && s[-1] == ':')
+					end = ++s;
+				else if (*s && s[-1] == '\'')
+					end = s;
+			}
+			s--;
+			if (end) {
+				saved = *end;
+				*end = 0;
+				stash = GvHV(gv_fetchpv(name, TRUE, SVt_PVHV));
+				*end = saved;
+				name = end;
+			}
+
+			gvp = (GV**)hv_fetch(stash, name, s - name, 1);
+
+			if(gvp) {
+				GV *gv = *gvp;
+				if (SvTYPE(gv) != SVt_PVGV)
+					gv_init(gv, stash, name, s - name, TRUE);
+
+				return gv;
+			}
 		}
 	}
 
