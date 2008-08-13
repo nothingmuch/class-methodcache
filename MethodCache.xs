@@ -182,3 +182,17 @@ get_cvgen (sv)
 	CODE:
 		RETVAL = GvCVGEN(gv);
 	OUTPUT: RETVAL
+
+void
+mro_isa_changed_in (sv)
+	INPUT:
+		SV *sv
+	PREINIT:
+		HV *stash = sv_stash(sv);
+	CODE:
+#ifdef mro_isa_changed_in
+		mro_isa_changed_in(stash);
+#else
+		PL_sub_generation++;
+#endif
+
