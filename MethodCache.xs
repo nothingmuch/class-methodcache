@@ -22,6 +22,7 @@ STATIC GV *sv_gv(SV *sv) {
 			return (GV *)sv;
 		} else if ( SvPOK(sv) ) {
 			/* fully qualified name case */
+			/* OMIGAWD XMATH UR TEH GREATES KTHX FR RITING THIS!!! COPYRAIT */
 			GV** gvp;
 			char *s, *end = NULL, saved;
 			char *name = SvPV_nolen(sv);
