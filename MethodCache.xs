@@ -5,6 +5,7 @@
 #undef PERL_CORE
 #include "XSUB.h"
 
+#define NEED_sv_2pv_flags
 #include "ppport.h"
 
 #ifdef HvMROMETA
