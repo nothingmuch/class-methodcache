@@ -114,7 +114,7 @@ delete_cv (sv)
 	CODE:
 		if ( GvCV(gv) )
 			SvREFCNT_dec(GvCV(gv));
-		GvCV(gv) = Nullcv;
+		GvCV(gv) = NULL;
 		GvCVGEN(gv) = 0;
 
 SV *
@@ -172,7 +172,7 @@ set_cv (sv, cv_sv)
 		GV *gv = sv_gv(sv);
 	PPCODE:
 		if ( !SvOK(cv_sv) ) {
-			cv = Nullcv;
+			cv = NULL;
 		} else if ( SvROK(cv_sv) && SvTYPE(SvRV(cv_sv)) == SVt_PVCV ) {
 			cv = (CV *)SvRV(cv_sv);
 			SvREFCNT_inc(cv);
