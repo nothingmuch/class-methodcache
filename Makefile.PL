@@ -4,6 +4,8 @@ use strict;
 
 use ExtUtils::MakeMaker;
 
+require 5.006;
+
 WriteMakefile(
 	NAME         => 'Class::MethodCache',
 	VERSION_FROM => 'lib/Class/MethodCache.pm',
