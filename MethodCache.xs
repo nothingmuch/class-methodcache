@@ -130,13 +130,17 @@ get_cached_method (sv)
 			XPUSHs(&PL_sv_undef);
 
 void
-set_cached_method (sv, cv)
+set_cached_method (sv, cv_sv)
 	INPUT:
 		SV *sv
-		CV *cv
+		SV *cv_sv
 	PREINIT:
 		GV *gv = sv_gv(sv);
+		CV *cv = SvROK(cv_sv) ? (CV *)SvRV(cv_sv) : NULL;
 	CODE:
+		if ( !cv || SvTYPE(cv) != SVt_PVCV )
+			Perl_croak(aTHX_ "cv is not a code reference");
+
 		if ( GvREFCNT(gv) == 1 ) {
 			if ( GvCV(gv) ) {
 				if ( GvCVGEN(gv) == 0 )
